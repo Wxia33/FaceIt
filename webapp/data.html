@@ -1,0 +1,127 @@
+﻿<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>FaceIt</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
+		<!--[if lte IE 9]><link rel="stylesheet" href="assets/css/ie9.css" /><![endif]-->
+	</head>
+	<body class="left-sidebar">
+        <div id="particles-js"></div>
+		<div id="page-wrapper">
+
+		
+				<div id="header-wrapper">
+					<div class="container">
+<!--
+							<header id="header">
+								<div class="inner">
+
+										<h1><a href="index.html" id="logo"><img src="logo_only_ico.ico" />FaceIt</a></h1>
+
+										<nav id="nav">
+											<ul>
+												<li class="current_page_item"><a href="index.html">Home</a></li>
+											</ul>
+										</nav>
+
+								</div>
+							</header>
+-->
+					</div>
+				</div>
+				
+					<div class="banner">
+						<body onload="init();">
+  							<div>
+     						<p>
+    						<button onclick="startWebcam();">Start WebCam</button>
+   		 					<button onclick="stopWebcam();">Stop WebCam</button> 
+      						<button onclick="snapshot();">Take Snapshot</button> 
+    						</p>
+    						<video onclick="snapshot(this);" width=400 height=400 id="video" controls autoplay></video>
+  							<p> Screenshots : <p>
+      						<canvas  id="myCanvas" width="400" height="350"></canvas>  
+						</div>
+					</div>
+				</div>
+
+		<!-- Scripts -->
+
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.dropotron.min.js"></script>
+			<script src="assets/js/skel.min.js"></script>
+			<script src="assets/js/skel-viewport.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
+			<script src="assets/js/main.js"></script>
+            <script src="assets/js/particles.js"></script>
+            <script src="assets/js/app.js"></script>
+            <script type="text/javascript">
+                particlesJS("particles-js", "particles.json");
+            </script>
+            <script>
+      //--------------------
+      // GET USER MEDIA CODE
+      //--------------------
+          navigator.getUserMedia = ( navigator.getUserMedia ||
+                             navigator.webkitGetUserMedia ||
+                             navigator.mozGetUserMedia ||
+                             navigator.msGetUserMedia);
+
+      var video;
+      var webcamStream;
+
+      function startWebcam() {
+        if (navigator.getUserMedia) {
+           navigator.getUserMedia (
+
+              // constraints
+              {
+                 video: true,
+                 audio: false
+              },
+
+              // successCallback
+              function(localMediaStream) {
+                  video = document.querySelector('video');
+                 video.src = window.URL.createObjectURL(localMediaStream);
+                 webcamStream = localMediaStream;
+              },
+
+              // errorCallback
+              function(err) {
+                 console.log("The following error occured: " + err);
+              }
+           );
+        } else {
+           console.log("getUserMedia not supported");
+        }  
+      }
+
+      function stopWebcam() {
+          webcamStream.stop();
+      }
+      //---------------------
+      // TAKE A SNAPSHOT CODE
+      //---------------------
+      var canvas, ctx;
+
+      function init() {
+        // Get the canvas and obtain a context for
+        // drawing in it
+        canvas = document.getElementById("myCanvas");
+        ctx = canvas.getContext('2d');
+      }
+
+      function snapshot() {
+         // Draws current image from the video element into the canvas
+        ctx.drawImage(video, 0,0, canvas.width, canvas.height);
+      }
+
+  </script>
+	</body>
+</html>
